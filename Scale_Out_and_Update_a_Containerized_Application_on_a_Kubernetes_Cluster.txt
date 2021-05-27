@@ -1,0 +1,44 @@
+
+------------------------------------------------------------------------>Welcome to TacticsProgrammed <-------------------------------------------------------------------------
+
+Scale Out and Update a Containerized Application on a Kubernetes Cluster
+
+Following are the Challenges to Scale Out and Update a Containerized Application on a Kubernetes Cluster
+
+1.Check that there is a tagged image in gcr.io for echo-app:v2.
+2.Echo-app:v2 is running on the Kubernetes cluster.
+3.The Kubernetes cluster deployment reports 2 replicas.
+4.The application must respond to web requests with V2.0.0.
+
+
+We have to solve all the tasks step by step
+
+********************************************************************************************************************************************************************************
+
+gsutil cp gs://sureskills-ql/challenge-labs/ch05-k8s-scale-and-update/echo-web-v2.tar.gz .
+
+tar xvzf echo-web-v2.tar.gz
+
+gcloud builds submit --tag gcr.io/$DEVSHELL_PROJECT_ID/echo-app:v2 .
+
+gcloud container clusters get-credentials echo-cluster --zone us-central1-a
+
+kubectl create deployment echo-web --image=gcr.io/qwiklabs-resources/echo-app:v1
+
+kubectl expose deployment echo-web --type=LoadBalancer --port 80 --target-port 8000
+
+kubectl edit deploy echo-web
+
+
+********************************************************************************************************************************************************************************
+
+By pressing "i" edit Image Version v1 to v2 
+
+Save the file by clicking ESC  then-----> click ENTER
+
+
+kubectl scale deploy echo-web --replicas=2
+
+
+
+********************************************************************************************************************************************************************************
